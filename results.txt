@@ -1,0 +1,164 @@
+User:  cosi@me.com Password:  12345678
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+User:  sysadmin@test.com Password:  sysadmin@test.com
+LOG IN
+ADD UNIT
+New id:  TEST_6824kEJ
+TEST PASSED
+--------------------------
+ID:  TEST_6824kEJ
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+TEST FAILED
+--------------------------
+LOG OUT
+***************
+
+User:  useradmin@test.com Password:  useradmin@test.com
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+User:  fieldservice@test.com Password:  fieldservice@test.com
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+User:  eoltech@test.com Password:  eoltech@test.com
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+User:  engineering@test.com Password:  engineering@test.com
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+User:  customersupport@test.com Password:  customersupport@test.com
+LOG IN
+ADD UNIT
+ADD UNIT TEST FAILED
+--------------------------
+ID:  RD201174
+UPDATE UNIT
+TEST PASSED
+--------------------------
+ADD UNIT NOTES
+TEST PASSED
+--------------------------
+VIEW UNIT NOTES
+TEST PASSED
+--------------------------
+DELETE UNIT
+Unit  RD201174  was deleted
+TEST PASSED
+--------------------------
+LOG OUT
+***************
+
+[
+    [False, True, True, True, True], 
+
+    [True, True, True, True, False], 
+    [False, True, True, True, True], 
+    [False, True, True, True, True], 
+    [False, True, True, True, True], 
+    [False, True, True, True, True], 
+    [False, True, True, True, True]
+]
