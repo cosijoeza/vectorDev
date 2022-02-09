@@ -1,4 +1,5 @@
 #Librarys
+import random
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,14 +15,20 @@ options.add_argument('--start-maximized')
 options.add_argument('--disable-extensions')
 driver_path = '/home/cosi/Documentos/datyra/test/selenium/chromedriver'
 driver = webdriver.Chrome(driver_path,chrome_options=options)
-driver
 url = 'http://localhost:3000/'
-url='http://vectordev.vectorstat.com/'
+url = 'http://vectordev.vectorstat.com/'
+url = 'http://vectorint.vectorstat.com/'
 
-users = ['']
+def getName(email):
+    name = email.split("@")
+    print(name[0])
+    return name[0]
+
+
+usersList = []
 results = []
 userTestResult = [] #b
-allowedUserPermission = [] #permisos permitidos para usuarios $allowedUserPermission
+allowedUserPermissionsFromDB = [] #permisos permitidos para usuarios $allowedUserPermissionsFromDB
 
 try:
     try:
@@ -31,6 +38,16 @@ try:
         DB_PASS = os.getenv("DB_PASS")
         PASSWORDS = os.getenv("PASSWORDS").split(",\n")
         USERS = os.getenv("USERS").split(",\n")
+        NAMES= os.getenv("NAMES").split(",\n")
+        LASTNAMES = os.getenv("LASTNAMES").split(",\n")
+        EMAILS = os.getenv("EMAILS").split(",\n")
+        """
+        PASSWORDS = os.getenv("PASSWORDS").split(",")
+        USERS = os.getenv("USERS").split(",")
+        NAMES= os.getenv("NAMES").split(",")
+        LASTNAMES = os.getenv("LASTNAMES").split(",")
+        EMAILS = os.getenv("EMAILS").split(",")
+        """
     except Exception as e:
         print(e)
 
@@ -39,6 +56,9 @@ try:
     print(DB_USER)
     print(DB_PASS)
     print(USERS)
+    print(NAMES)
+    print(LASTNAMES)
+    print(EMAILS)
 
     driver.get(url)
     user = vectorStat()
@@ -48,55 +68,70 @@ try:
         user.setSession(USERS[i],PASSWORDS[i])
         print(USERS[i])
         print(PASSWORDS[i])
-        users.append(user.getEmail())
+        name = getName(user.getEmail())
+        usersList.append(name)
         user.clearHistory()
         
         user.logIn()
+        """
+        #UNIT
         added = user.addUnit()
         userTestResult.append(added)
         time.sleep(10)
         driver.refresh()
-        id = 'RD201003' #poner razon de porque está y ponerlo en archivo de constantes
+        id = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
         userTestResult.append(user.updateUnit(id))
-        time.sleep(5)
-        userTestResult.append(user.viewUnitNotes(id))
-        time.sleep(10)      
-        userTestResult.append(user.addUnitNotes(id))
-        time.sleep(10)
+        time.sleep(15)
         #Comprobar si es id get id unit  
         if added:
             userTestResult.append(user.deleteUnit(user.getIdUnit()))
         else:
             userTestResult.append(user.deleteUnit(id))
         time.sleep(10)
-        user.addLogo()
+        #NOTES
+        userTestResult.append(user.viewUnitNotes(id))
+        time.sleep(10)      
+        userTestResult.append(user.addUnitNotes(id))
+        time.sleep(10)
+        #LOGO
+        userTestResult.append(user.addLogo())
         time.sleep(5)
-        user.viewLogo("Test logo")
+        userTestResult.append(user.viewLogo("Test logo"))
         time.sleep(5)
-        #user.updateLogo("Nuvve - SDGE")
-        user.updateLogo("Test logo")
+        #user.updateLogo("Nuvve - SDGE")        
+        userTestResult.append(user.updateLogo("Test logo"))
         time.sleep(5)
-        user.deleteLogo("Test logo")
+        userTestResult.append(user.deleteLogo("Test logo"))
         time.sleep(5)
+        """
+        #USER
+        itemName = random.randint(0,6)
+        itemLastname = random.randint(0,6)
+        itemEmail = random.randint(0,6)
+        userTestResult.append(user.addUser(NAMES[itemName],LASTNAMES[itemLastname],EMAILS[itemEmail]))
+        time.sleep(10)
         user.logOut()
+        
         results.append(userTestResult)
         userTestResult = []
         
         historyTestOrder = user.getHistoryTestOrder()
         user.setDbConecction(DB_NAME,DB_USER,DB_PASS,DB_HOST)
-        verifyHistory = user.hasPermission(historyTestOrder)
-        allowedUserPermission.append(verifyHistory) #$allowedUserPermissionFromDatabase
+        verifiedHistory = user.hasPermission(historyTestOrder)
+        allowedUserPermissionsFromDB.append(verifiedHistory) #$allowedUserPermissionsFromDBFromDatabase
         
         
-        print("History: \n{}\n".format(historyTestOrder))
-        print("Permissions: \n{}".format(verifyHistory))
+        print("History: \n{}".format(historyTestOrder))
+        #print("Permissions user has: \n{}".format(verifiedHistory))
         
         user.clearPermissionListFromDB()
-
+        break
+        
+    print("Users List ",usersList)
+    print("Result for each user tested:\n",results)
+    print("List of permissions for each user from DB: \n",allowedUserPermissionsFromDB)
+    user.generateReport(results,allowedUserPermissionsFromDB,usersList)
     driver.close()
-    print("Result of test:\n",results)
-    print("Permissions: \n",allowedUserPermission)
-    user.generateReport(results,allowedUserPermission,users)
 
 except Exception as e:
     print(e)

@@ -77,6 +77,81 @@ class vectorStat:
         except Exception as e:
             print(e+"in getPermissions in userTestClass")
  
+    #Add new user
+    def addUser(self,name,lastName,email):
+        self.historyTestOrder.append("addUser")
+        print("ADD USER")
+        try:
+            #Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Clic on user option
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Add user
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Select organization
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[1]/div/div'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Click on first option
+            buttonPath = '/html/body/div[3]/div[3]/ul/li'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #first Name
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(name)
+
+            #Last Name
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[3]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(lastName)
+
+            #Email
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[4]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(email)
+            
+            #Upload picture
+            item = random.randint(0,1)
+            print("WP: ")
+            if item == 0:
+                print("20.8kB")
+            else:
+                print("1.1MB")
+            picturePath = '/home/cosi/Documentos/datyra/test/selenium/picture_profile_test['+str(item)+'].png'
+            self.driver.find_element_by_id("imageinput").send_keys(picturePath)
+
+            #Select role
+            item = random.randint(0,6)+1
+            print(item)
+            buttonPath= '/html/body/div[2]/div[3]/div/div[2]/form/div[2]/div[1]/div[2]/fieldset/div/label['+str(item)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            time.sleep(7)
+
+            #Save button
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[3]/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            #Wait to vectorDev save information
+            time.sleep(10)
+            print(name)
+            print(lastName)
+            print(email)
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("ADD USER TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
     #Compare actions user performed during test against actions database gives
     def hasPermission(self,history):
         #We look for the action in the database
@@ -118,7 +193,7 @@ class vectorStat:
             WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,buttonClass))).click()
 
             #Wait for vectordev to be ready
-            time.sleep(10)
+            time.sleep(15)
 
             return True
         except Exception as e:
@@ -131,6 +206,7 @@ class vectorStat:
     def logOut(self):
         print("LOG OUT")
         try:
+            self.driver.get(self.url)
             #Unit top button
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -262,7 +338,7 @@ class vectorStat:
             unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/button'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
 
-            if id == 'RD201003':
+            if id == 'RD201024':
                 #Cancel button
                 buttonPath = '/html/body/div[2]/div[3]/div/div[3]/button[1]'
                 WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -302,35 +378,41 @@ class vectorStat:
             unit = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
 
-            time.sleep(2)
+            time.sleep(5)
 
             #Edit unit
             unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
 
-            #Unit ID/Serial Number
-            #buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/input'
-            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
             #Product type
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[2]/div'
+            buttonPath = '/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
-
             #Choose random option
             item = random.randint(0,2)+1
             buttonPath = '/html/body/div[2]/div[3]/ul/li['+ str(item) +']'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            
-            #Write a description
-            sim = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys('Update unit test')
-            
+            #Beaglebone Serial #
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys('abc..|123')
+
+            #Screen Brightness
+            item = random.randint(0,8) * 10 + 20
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
+            element = self.driver.find_element_by_xpath(buttonPath).clear()
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)
+
+            #Poll Intervals (seconds)
+            item = random.randint(0,54) * 10 + 60
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
+            element = self.driver.find_element_by_xpath(buttonPath).clear()
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)
 
             #Save update
-            #buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/button[2]'
-            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             
             time.sleep(10)
             
@@ -455,8 +537,8 @@ class vectorStat:
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[1]/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Select random organitzacion
-            item = random.randint(0,12)+1
+            #Select random organization
+            item = random.randint(0,13)+1
             buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
@@ -479,7 +561,9 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Test Description ",str(dateNow))
 
             #Upload 600x150px 
-            self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-480x125.png")
+            picturePath = "/home/cosi/Imágenes/logo_test.png"
+            #self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-480x125.png")
+            self.driver.find_element_by_id("contained-button-file1").send_keys(picturePath)
 
             #Upload 90x60px 
             self.driver.find_element_by_id("contained-button-file2").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-55x45.png")
@@ -536,7 +620,7 @@ class vectorStat:
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div/input'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Updated logo")
             
-            item = random.randint(0,1)+1
+            item = random.randint(0,1)
             print(item)
             if item == 1:
                 #Upload 600x150px 
@@ -549,6 +633,10 @@ class vectorStat:
 
             #Save
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[5]/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Close logo window
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             print("TEST PASSED\n--------------------------")
@@ -605,7 +693,7 @@ class vectorStat:
     
     def deleteLogo(self,name):
         self.historyTestOrder.append("DeleteLogo")
-        print("VIEW LOGO")
+        print("DELETE LOGO")
         try:
             #Home
             buttonPath = '/html/body/div/div/div/div[1]/div[1]'
@@ -643,18 +731,25 @@ class vectorStat:
             #Confirm
             buttonPath = '/html/body/div[3]/div[3]/div/div[3]/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Close logo window
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             
             print("TEST PASSED\n--------------------------")
             return True
         except Exception as e:
             print(e)
-            print("\nin updateLogo")
+            print("\nin deleteLogo")
             self.driver.get(self.url)
             print("TEST FAILED\n--------------------------")
             return False
     
     #Generate a PDF file (report's results of test)
-    def generateReport(self,resultsList,permissions,users):
+    def generateReport(self,resultsList,correctPermissions,users):
+
+        users.insert(0,'')
+        testedActions = self.historyTestOrder
 
         #PDF format
         pdf = FPDF(orientation = 'L', unit = 'mm',format = 'A4')
@@ -671,39 +766,31 @@ class vectorStat:
         #Create table
         pdf.set_font('Arial','B',12)
         pdf.cell(w=280,h=15,txt='Test Report',ln=1,border = 1 ,align='C',fill=0)
-
-        #También cambiar por el usuario que 
-        users = ['','SysAdmin','UserAdmin','Field Service','EOL Tech','Engineering','Customer']
-        print("HistoryTestOrder",self.historyTestOrder)
-        #Ya no se ocupará esto, se utilizará el historial del usuario userHistoryTest
-        descriptions = ['Add Unit','Update Unit','View Unit Notes','Add Unit Notes','Delete Unit']
-        descriptions = self.historyTestOrder
-        
         #Print users
         width = 40
         for user in users:
             pdf.cell(w=width,h=15,txt=user,border = 1 ,align='C',fill=0)
-        
-        pdf.set_font('Arial','',12)
+        #pdf.set_font('Arial','',12)
         pdf.ln(15)
 
         #Write into the table
         text = ''
-        for i in range(len(descriptions)):
+        for j in range(len(testedActions)):
+            #Print testedActions
             pdf.set_text_color(0,0,0)
             pdf.set_font('Arial','B',12)
-            pdf.cell(w=width,h=15,txt=descriptions[i],border = 1 ,align='C',fill=0)
+            pdf.cell(w=width,h=15,txt=testedActions[j],border = 1 ,align='C',fill=0)
             
-            pdf.set_font('Arial','',12)
             #Write test results
-            for j in range(len(users)-1):
-                result = permissions[j][i]
+            #We subtract 1 to skip the action we just wrote
+            pdf.set_font('Arial','',12)
+            for i in range(len(users)-1):
+                result = correctPermissions[i][j]
                 if result == True:    
                     text = 'Yes'
                 else:
                     text = 'No'
-
-                if result == resultsList[j][i]:
+                if result == resultsList[i][j]:
                     pdf.set_text_color(8,130,21)
                     text += ' : Succesful'        
                 else:
