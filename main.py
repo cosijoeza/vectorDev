@@ -17,7 +17,7 @@ driver_path = '/home/cosi/Documentos/datyra/test/selenium/chromedriver'
 driver = webdriver.Chrome(driver_path,chrome_options=options)
 url = 'http://localhost:3000/'
 url = 'http://vectordev.vectorstat.com/'
-url = 'http://vectorint.vectorstat.com/'
+url = 'http://vectorint.vectorstat.com/' 
 
 def getName(email):
     name = email.split("@")
@@ -29,25 +29,26 @@ usersList = []
 results = []
 userTestResult = [] #b
 allowedUserPermissionsFromDB = [] #permisos permitidos para usuarios $allowedUserPermissionsFromDB
-
+debug = False
 try:
     try:
         DB_HOST = os.getenv("DB_HOST")
         DB_NAME = os.getenv("DB_NAME")
         DB_USER = os.getenv("DB_USER")
         DB_PASS = os.getenv("DB_PASS")
-        PASSWORDS = os.getenv("PASSWORDS").split(",\n")
-        USERS = os.getenv("USERS").split(",\n")
-        NAMES= os.getenv("NAMES").split(",\n")
-        LASTNAMES = os.getenv("LASTNAMES").split(",\n")
-        EMAILS = os.getenv("EMAILS").split(",\n")
-        """
-        PASSWORDS = os.getenv("PASSWORDS").split(",")
-        USERS = os.getenv("USERS").split(",")
-        NAMES= os.getenv("NAMES").split(",")
-        LASTNAMES = os.getenv("LASTNAMES").split(",")
-        EMAILS = os.getenv("EMAILS").split(",")
-        """
+        if debug != True:
+            PASSWORDS = os.getenv("PASSWORDS").split(",\n")
+            USERS = os.getenv("USERS").split(",\n")
+            NAMES= os.getenv("NAMES").split(",\n")
+            LASTNAMES = os.getenv("LASTNAMES").split(",\n")
+            EMAILS = os.getenv("EMAILS").split(",\n")
+        else:
+            PASSWORDS = os.getenv("PASSWORDS").split(",")
+            USERS = os.getenv("USERS").split(",")
+            NAMES= os.getenv("NAMES").split(",")
+            LASTNAMES = os.getenv("LASTNAMES").split(",")
+            EMAILS = os.getenv("EMAILS").split(",")
+        
     except Exception as e:
         print(e)
 
@@ -67,18 +68,16 @@ try:
     for i in range(len(USERS)):
         user.setSession(USERS[i],PASSWORDS[i])
         print(USERS[i])
-        print(PASSWORDS[i])
+        print(PASSWORDS[i],"\n")
         name = getName(user.getEmail())
         usersList.append(name)
         user.clearHistory()
         
         user.logIn()
-        """
         #UNIT
         added = user.addUnit()
         userTestResult.append(added)
-        time.sleep(10)
-        driver.refresh()
+        time.sleep(5)
         id = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
         userTestResult.append(user.updateUnit(id))
         time.sleep(15)
@@ -88,11 +87,13 @@ try:
         else:
             userTestResult.append(user.deleteUnit(id))
         time.sleep(10)
+
         #NOTES
         userTestResult.append(user.viewUnitNotes(id))
         time.sleep(10)      
-        userTestResult.append(user.addUnitNotes(id))
+        userTestResult.append(user.addUnitNote(id))
         time.sleep(10)
+
         #LOGO
         userTestResult.append(user.addLogo())
         time.sleep(5)
@@ -103,13 +104,17 @@ try:
         time.sleep(5)
         userTestResult.append(user.deleteLogo("Test logo"))
         time.sleep(5)
-        """
+        
         #USER
         itemName = random.randint(0,6)
         itemLastname = random.randint(0,6)
         itemEmail = random.randint(0,6)
         userTestResult.append(user.addUser(NAMES[itemName],LASTNAMES[itemLastname],EMAILS[itemEmail]))
         time.sleep(10)
+        
+        userTestResult.append(user.viewUser())
+        time.sleep(5)
+        
         user.logOut()
         
         results.append(userTestResult)
