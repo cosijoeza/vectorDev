@@ -1,5 +1,6 @@
 #Librarys
 from lib2to3.pgen2 import driver
+from pandas import DatetimeIndex
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,64 +20,7 @@ class vectorStat:
         self.historyTestOrder = []
         self.actions = []
         self.CONN = None
-        self.CUR = None
-
-    def setConecction(self,driver,url):
-        self.driver = driver
-        self.url = url
-
-    def setSession(self,email,password):
-        self.email = email
-        self.password = password
-
-    def setEmail(self,newEmail):
-        self.email = newEmail
-
-    def setPassword(self,newPassword):
-        self.password = newPassword
-
-    def setDbConecction(self,db_name, db_user, db_password, db_host):
-        try:
-            self.CONN = psycopg2.connect(dbname=db_name, user=db_user, password = db_password,host=db_host)
-            self.CUR = self.CONN.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        except Exception as e:
-            print(e," in setDBConecction")
-    
-    def getEmail(self):
-        return self.email
-
-    def getIdUnit(self):
-        return self.id
-    
-    def getHistoryTestOrder(self):
-        return self.historyTestOrder
-
-    # Permission list user has in vectorstatDB
-    def getPermissions(self):
-        try: 
-            #Get id role by email
-            query = "SELECT id_role FROM \"authorization\".\"user\" WHERE email ='" + self.email +"'"
-            print(query)
-            self.CUR.execute(query)
-            result = self.CUR.fetchone()
-            key = result[0]
-            self.CONN.commit()
-
-            #Get permissions user have
-            query = """SELECT pms.name AS permission FROM \"authorization\".\"role\" AS r
-            INNER JOIN \"authorization\"."role_permission" AS rp ON r.id = rp.id_role
-            INNER JOIN "authorization"."permission" AS pms ON pms.id = rp.id_permission
-            WHERE rp.id_role ='""" + str(key)+"'"
-            self.CUR.execute(query)
-            permissions  = self.CUR.fetchall()
-            self.CONN.commit()
-
-            self.CUR.close()
-            self.CONN.close()
-            return [item for sublist in permissions for item in sublist]
-        except Exception as e:
-            print(e+"in getPermissions in userTestClass")
- 
+        self.CUR = None   
     # Add new logo
     def addLogo(self):
         self.historyTestOrder.append("AddLogo")
@@ -268,8 +212,9 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,notePath))).click()
 
             #Write a note
+            now  = datetime.now()
             sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div/div[1]/div/textarea[1]'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys('Test note written at ')
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys('Test note written at '+str(now.hour)+':'+str(now.minute))
 
             time.sleep(5)
             
@@ -374,6 +319,7 @@ class vectorStat:
     def clearHistory(self):
         self.historyTestOrder = []  
 
+    # Delete logo
     def deleteLogo(self,name):
         self.historyTestOrder.append("DeleteLogo")
         print("DELETE LOGO")
@@ -533,19 +479,58 @@ class vectorStat:
         #PDF's name
         pdf.output('testResults.pdf')
 
+    # Access methods
+    def getEmail(self):
+        return self.email
+
+    def getIdUnit(self):
+        return self.id
+    
+    def getHistoryTestOrder(self):
+        return self.historyTestOrder
+
+    # Permission list user has in vectorstatDB
+    def getPermissions(self):
+        try: 
+            #Get id role by email
+            query = "SELECT id_role FROM \"authorization\".\"user\" WHERE email ='" + self.email +"'"
+            print(query)
+            self.CUR.execute(query)
+            result = self.CUR.fetchone()
+            key = result[0]
+            self.CONN.commit()
+
+            #Get permissions user have
+            query = """SELECT pms.name AS permission FROM \"authorization\".\"role\" AS r
+            INNER JOIN \"authorization\"."role_permission" AS rp ON r.id = rp.id_role
+            INNER JOIN "authorization"."permission" AS pms ON pms.id = rp.id_permission
+            WHERE rp.id_role ='""" + str(key)+"'"
+            self.CUR.execute(query)
+            permissions  = self.CUR.fetchall()
+            self.CONN.commit()
+
+            self.CUR.close()
+            self.CONN.close()
+            return [item for sublist in permissions for item in sublist]
+        except Exception as e:
+            print(e+" in getPermissions in userTestClass")
+
     # Compare actions user performed during test against actions database gives
     def hasPermission(self,history):
-        #We look for the action in the database
-        self.permissionsFromDB = self.getPermissions()
-        results = []
-        permissionList = [x.lower() for x in self.permissionsFromDB]
-        history = [x.lower() for x in history]
-        for i in history:
-            if i in permissionList:
-                results.append(True)
-            else:
-                results.append(False)
-        return results
+        try:
+            #We look for the action in the database
+            self.permissionsFromDB = self.getPermissions()
+            results = []
+            permissionList = [x.lower() for x in self.permissionsFromDB]
+            history = [x.lower() for x in history]
+            for i in history:
+                if i in permissionList:
+                    results.append(True)
+                else:
+                    results.append(False)
+            return results
+        except Exception as e:
+            print(e+" in hasPermission in userTestClass")
 
     # Log In to VectorStat
     def logIn(self):
@@ -600,6 +585,177 @@ class vectorStat:
             print("LOG OUT TEST FAILED")
             return False
 
+    # Diagnostic test
+    def runManualTest(self,id):
+        self.historyTestOrder.append("runManualTest")
+        print("RUN MANUAL TEST")
+        try:
+            # Go to home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Units top button
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Search unit
+            serialNumber = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,serialNumber))).send_keys(str(id))
+
+            # Click on unit searched
+            unit = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/a'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+            
+            #Wait while unit is loading
+            time.sleep(5)
+
+            # Display diagnostic tests
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[1]/div/nav/div[4]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # Click on run manual tests
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[1]/div/nav/div[5]/div/div/div/div[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            #   ---PART ONE---
+
+            # 1. Select dielectric test option
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[1]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 2. Component ID's Verification
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[2]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 3. Component ID's Verification
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[3]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 4. Screen Test 
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[4]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 5. VectorStat Software Version
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[5]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 6. IoTecha Connectivity (IoT.ON Portal)
+            option = random.randint(1,3)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/fieldset[6]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+            
+            time.sleep(10)
+
+            # Click on next button
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div/span/div/form/div/button'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            #   ---PART TWO---
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 7. IoTecha Firmware Version
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[1]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+            
+            # 8. MODBUS Communication Test
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[2]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 9. Bender Settings Verification
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[3]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+            
+            # 10. Check for relay operation on IMD board.
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[4]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 11. Vehicle Charging Test
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[5]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 12. AC Meter Reading is Operational
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/fieldset[6]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            time.sleep(10)
+
+            # Click on next button
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/span/div/form/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            #   ---PART THREE---
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/button[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # EPO Test
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[4]/div/span/div/form/fieldset[1]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 14.-IMI Test
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[4]/div/span/div/form/fieldset[2]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 15. GMI Test 
+            option = random.randint(1,2)
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[4]/div/span/div/form/fieldset[3]/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # 16. Comments
+            inputPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[4]/div/span/div/form/div[1]/div/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys("Test comments")
+
+            time.sleep(10)
+
+            # Click on complete button
+            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[4]/div/span/div/form/div[2]/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("\nin runManualTest")
+            self.driver.get(self.url)
+            print("TEST FAILED\n--------------------------")
+            return False
+
+    # Access methods
+    def setConecction(self,driver,url):
+        self.driver = driver
+        self.url = url
+
+    def setSession(self,email,password):
+        self.email = email
+        self.password = password
+
+    def setEmail(self,newEmail):
+        self.email = newEmail
+
+    def setPassword(self,newPassword):
+        self.password = newPassword
+
+    def setDbConecction(self,db_name, db_user, db_password, db_host):
+        try:
+            self.CONN = psycopg2.connect(dbname=db_name, user=db_user, password = db_password,host=db_host)
+            self.CUR = self.CONN.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        except Exception as e:
+            print(e," in setDBConecction")
+ 
     # Update logo
     def updateLogo(self,name):
         self.historyTestOrder.append("UpdateLogo")
@@ -621,6 +777,7 @@ class vectorStat:
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            time.sleep(8)
             #Search logo
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(name)
@@ -682,8 +839,9 @@ class vectorStat:
             #Click on unit searched
             unit = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
-
-            time.sleep(5)
+            
+            #Wait while unit is loading
+            time.sleep(15)
 
             #Edit unit
             unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div[2]'
@@ -692,6 +850,7 @@ class vectorStat:
             #Product type
             buttonPath = '/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
             #Choose random option
             item = random.randint(0,2)+1
             buttonPath = '/html/body/div[2]/div[3]/ul/li['+ str(item) +']'

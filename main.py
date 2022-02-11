@@ -36,6 +36,7 @@ try:
         DB_NAME = os.getenv("DB_NAME")
         DB_USER = os.getenv("DB_USER")
         DB_PASS = os.getenv("DB_PASS")
+        ID_UNITEST = os.getenv("ID_UNITEST")
         if debug != True:
             PASSWORDS = os.getenv("PASSWORDS").split(",\n")
             USERS = os.getenv("USERS").split(",\n")
@@ -64,7 +65,7 @@ try:
     driver.get(url)
     user = vectorStat()
     user.setConecction(driver,url)
-    
+
     for i in range(len(USERS)):
         user.setSession(USERS[i],PASSWORDS[i])
         print(USERS[i])
@@ -74,67 +75,69 @@ try:
         user.clearHistory()
         
         user.logIn()
+        """
         #UNIT
         added = user.addUnit()
         userTestResult.append(added)
         time.sleep(5)
-        id = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
-        userTestResult.append(user.updateUnit(id))
+        ID_UNITEST = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
+        userTestResult.append(user.updateUnit(ID_UNITEST))
         time.sleep(15)
+        
         #Comprobar si es id get id unit  
         if added:
             userTestResult.append(user.deleteUnit(user.getIdUnit()))
         else:
-            userTestResult.append(user.deleteUnit(id))
+            userTestResult.append(user.deleteUnit(ID_UNITEST))
         time.sleep(10)
-
+        
         #NOTES
-        userTestResult.append(user.viewUnitNotes(id))
-        time.sleep(10)      
-        userTestResult.append(user.addUnitNote(id))
+        userTestResult.append(user.addUnitNote(ID_UNITEST))
         time.sleep(10)
-
+        userTestResult.append(user.viewUnitNotes(ID_UNITEST))
+        time.sleep(10)
+        """
+        
         #LOGO
-        userTestResult.append(user.addLogo())
-        time.sleep(5)
-        userTestResult.append(user.viewLogo("Test logo"))
-        time.sleep(5)
-        #user.updateLogo("Nuvve - SDGE")        
-        userTestResult.append(user.updateLogo("Test logo"))
-        time.sleep(5)
-        userTestResult.append(user.deleteLogo("Test logo"))
+        logoName = "Test Name"
+        #userTestResult.append(user.addLogo())
+        #time.sleep(5)
+        #userTestResult.append(user.viewLogo(logoName))
+        #time.sleep(5)
+        #userTestResult.append(user.updateLogo(logoName))
+        #time.sleep(10)
+        userTestResult.append(user.deleteLogo(logoName))
         time.sleep(5)
         
+        """
         #USER
         itemName = random.randint(0,6)
         itemLastname = random.randint(0,6)
         itemEmail = random.randint(0,6)
         userTestResult.append(user.addUser(NAMES[itemName],LASTNAMES[itemLastname],EMAILS[itemEmail]))
         time.sleep(10)
-        
         userTestResult.append(user.viewUser())
         time.sleep(5)
         
+        #Diagnostic test
+        userTestResult.append(user.runManualTest(ID_UNITEST))
+        """
         user.logOut()
         
+        #Save and verify results gotten
         results.append(userTestResult)
-        userTestResult = []
-        
         historyTestOrder = user.getHistoryTestOrder()
         user.setDbConecction(DB_NAME,DB_USER,DB_PASS,DB_HOST)
         verifiedHistory = user.hasPermission(historyTestOrder)
-        allowedUserPermissionsFromDB.append(verifiedHistory) #$allowedUserPermissionsFromDBFromDatabase
-        
-        
-        print("History: \n{}".format(historyTestOrder))
-        #print("Permissions user has: \n{}".format(verifiedHistory))
-        
+        allowedUserPermissionsFromDB.append(verifiedHistory) 
+        #Reset lists
+        userTestResult = []
         user.clearPermissionListFromDB()
-        break
-        
-    print("Users List ",usersList)
-    print("Result for each user tested:\n",results)
-    print("List of permissions for each user from DB: \n",allowedUserPermissionsFromDB)
+        print("History: \n{}".format(historyTestOrder))        
+                
+    print("Users List ",usersList,"\n")
+    print("Result for each user tested:\n",results,"\n")
+    print("List of permissions for each user from DB: \n",allowedUserPermissionsFromDB,"\n")
     user.generateReport(results,allowedUserPermissionsFromDB,usersList)
     driver.close()
 
