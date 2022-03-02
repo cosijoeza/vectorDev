@@ -26,60 +26,58 @@ class vectorStat:
         self.historyTestOrder.append("AddLogo")
         print("ADD LOGO")
         try:
-            #Home
+            # Home
             buttonPath = '/html/body/div/div/div/div[1]/div[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Admin
+            # Admin
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Lookup table maint
+            # Lookup table maint
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[4]/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Logos
+            # Logos
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #add Logo
+            # Add Logo
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Organization
+            # Organization
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[1]/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Select random organization
+            # Select random organization
             item = random.randint(0,13)+1
             buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Generate random serial number and letter
+            # Generate random serial number and letter
             string.ascii_letters 
             'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-            id = 'LOGOTEST_'+ str( random.randint(0,10000) )
-            letter = ''
-            for i in range (3):
-                letter += random.choice(string.ascii_letters)
-            id += letter
-
+            id = 'LOGO'+ random.choice(string.ascii_letters.upper()) + str( random.randint(200000,1000000) ) + '_TEST'
             #Name
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[2]/div/input'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(str(id))
 
-            #Description
+            # Description
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div/input'
             dateNow = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Test Description ",str(dateNow))
 
-            #Upload 600x150px 
-            picturePath = "/home/cosi/Imágenes/logo_test.png"
+            # Upload small logo
+            option = random.randint(0,1)
+            picturePath = "/home/cosi/Documentos/datyra/test/selenium/logoPictures/logo_picture["+option+"].png"
             #self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-480x125.png")
             self.driver.find_element_by_id("contained-button-file1").send_keys(picturePath)
 
-            #Upload 90x60px 
-            self.driver.find_element_by_id("contained-button-file2").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-55x45.png")
+            # Upload big logo  
+            option = random.randint(2,3)
+            picturePath = "/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-5   5x45.png"
+            self.driver.find_element_by_id("contained-button-file2").send_keys(picturePath )
 
             time.sleep(5)
 
@@ -97,33 +95,20 @@ class vectorStat:
             return False
 
     # Add a new unit in VectorStat
-    def addUnit(self):
+    def addUnit(self,option):
         self.historyTestOrder.append("AddUnit")
         print("ADD UNIT")
         try:
             #Unit top button
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
+            time.sleep(3)
             #Add unit button
-            buttonPath = '//*[@id="root"]/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/button[1]'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/button[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Unit type button
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
-            #Select Unit type
-            buttonPath = '/html/body/div[3]/div[3]/ul/li[1]'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
-            #Dispenser type button
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[1]/div/div'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
-            #Select random dispenser type
-            item = random.randint(0,2)+1
-            buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Generate random serial number and letter
@@ -131,50 +116,98 @@ class vectorStat:
             'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
             id = 'RD'+ random.choice(string.ascii_letters.upper()) + str( random.randint(200000,1000000) ) + '_TEST'
 
-            #Write serial number
-            serialNumber = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[2]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,serialNumber))).send_keys(str(id))
+            if option == 1:
+                #Select Unit type (Dispenser)
+                buttonPath = '/html/body/div[3]/div[3]/ul/li[1]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                
+                #Dispenser type button
+                buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[1]/div/div'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                
+                #Select random dispenser type
+                item = random.randint(0,2)+1
+                buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Write IoTecha PCBA serial number
-            PCBA = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[3]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,PCBA))).send_keys('--')
+                #Write serial number
+                serialNumber = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[2]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,serialNumber))).send_keys(str(id))
 
-            #Write BeagleBone Serial number
-            beagleSerial = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[4]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,beagleSerial))).send_keys('--')
+                #Write IoTecha PCBA serial number
+                PCBA = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[3]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,PCBA))).send_keys('--')
 
-            number = random.randint(200000,1000000)
-            #SIM Card number
-            sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[5]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
-            
-            check = random.randint(0,1)
-            print("Has modem? ",check)
-            if check == 1:
+                #Write BeagleBone Serial number
+                beagleSerial = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[4]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,beagleSerial))).send_keys('--')
+
+                number = random.randint(200000,1000000)
+                #SIM Card number
+                sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[5]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
+                
+                check = random.randint(0,1)
+                print("Has modem? ",check)
                 #Has modem CHECK
                 modem = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/label/span[1]'
                 WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,modem))).click()
+                if check == 1:
+                    number = random.randint(200000,1000000)
+                    #Write CradlePoint IMEI
+                    sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[6]/div/input'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
 
-                number = random.randint(200000,1000000)
-                #Write CradlePoint IMEI
-                sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[6]/div/input'
-                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
+                    number = random.randint(200000,1000000)
+                    #Write CradlePoint MAC
+                    sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[7]/div/input'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
 
-                number = random.randint(200000,1000000)
-                #Write CradlePoint MAC
-                sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[7]/div/input'
-                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(number))
+                    #Write VectorStatSerial
+                    sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[8]/div/input'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(id))
+                
+                time.sleep(5)
+            elif option == 2:
+                #Select Unit type (PCS)
+                buttonPath = '/html/body/div[3]/div[3]/ul/li[2]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-                #Write VectorStatSerial
-                sim = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[8]/div/input'
-                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,sim))).send_keys(str(id))
-            
-            time.sleep(10)
+                #Select PCS type
+                buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[1]/div/div'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+                #Select random dispenser type
+                item = random.randint(1,5)
+                buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+                #PCS Serial Number
+                inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[2]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(id))
+
+                check = random.randint(0,1)
+                print("Has No AC Energy? ",check)
+                #0: NO
+                #1: YES
+                if check == 1:
+                    #Unit Has No AC Energy Meter Serial Number
+                    checkBox = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/label/span[1]'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,checkBox))).click()
+                else:
+                    #AC Energy Meter Serial Number
+                    number = random.randint(200000,1000000)
+                    inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[1]/div[3]/div/input'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(number))
+                    
+            time.sleep(5)
             
             #Click on save
             modem = '/html/body/div[2]/div[3]/div/div[2]/form/div/div[2]/div/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,modem))).click()
-            time.sleep(5)
+            #Close                                  
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            #WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,modem))).click()
 
             self.driver.refresh()
             self.driver.get(self.url)
@@ -571,12 +604,12 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Click on menu button
-            buttonPath = '/html/body/div/div/div/div[1]/div[4]/button'
+            buttonPath = '/html/body/div/div/div/div[1]/div[4]'
             WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
+            #time.sleep(5)
             #Click on log out button
-            buttonPath = '/html/body/div/div/div/div[1]/div[4]/div/div/ul/a[2]'
-            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            buttonPath = '/html/body/div/div/div/div[1]/div[4]/div/div/ul/a'
+            WebDriverWait(self.driver,15).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             return True
         except Exception as e:
@@ -957,9 +990,9 @@ class vectorStat:
 
             time.sleep(10)
 
-            #Close pop up
-            notePath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,notePath))).click()
+            # Close pop up
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             
             print("TEST PASSED\n--------------------------")
             return True
@@ -1020,3 +1053,6 @@ class vectorStat:
             self.driver.get(self.url)
             time.sleep(5)
             return False    
+
+    def exists():
+       return True

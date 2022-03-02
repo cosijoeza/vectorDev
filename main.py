@@ -16,8 +16,8 @@ options.add_argument('--disable-extensions')
 driver_path = '/home/cosi/Documentos/datyra/test/selenium/chromedriver'
 driver = webdriver.Chrome(driver_path,chrome_options=options)
 url = 'http://localhost:3000/'
+url = 'http://vectorint.vectorstat.com/'
 url = 'http://vectordev.vectorstat.com/'
-url = 'http://vectorint.vectorstat.com/' 
 
 def getName(email):
     name = email.split("@")
@@ -37,6 +37,7 @@ try:
         DB_USER = os.getenv("DB_USER")
         DB_PASS = os.getenv("DB_PASS")
         ID_UNITEST = os.getenv("ID_UNITEST")
+        LOGO_TEST = os.getenv("LOGO_TEST")
         if debug != True:
             PASSWORDS = os.getenv("PASSWORDS").split(",\n")
             USERS = os.getenv("USERS").split(",\n")
@@ -77,11 +78,11 @@ try:
         user.logIn()
         """
         #UNIT
-        added = user.addUnit()
+        added = user.addUnit(1)
         userTestResult.append(added)
         time.sleep(5)
         ID_UNITEST = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
-        userTestResult.append(user.updateUnit(ID_UNITEST))
+        #userTestResult.append(user.updateUnit(ID_UNITEST))
         time.sleep(15)
         
         #Comprobar si es id get id unit  
@@ -93,22 +94,19 @@ try:
         
         #NOTES
         userTestResult.append(user.addUnitNote(ID_UNITEST))
-        time.sleep(10)
+        time.sleep(10)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         userTestResult.append(user.viewUnitNotes(ID_UNITEST))
         time.sleep(10)
-        """
         
         #LOGO
-        logoName = "Test Name"
-        #userTestResult.append(user.addLogo())
-        #time.sleep(5)
-        #userTestResult.append(user.viewLogo(logoName))
-        #time.sleep(5)
-        #userTestResult.append(user.updateLogo(logoName))
-        #time.sleep(10)
-        userTestResult.append(user.deleteLogo(logoName))
+        userTestResult.append(user.addLogo())
         time.sleep(5)
-        
+        #userTestResult.append(user.viewLogo(LOGO_TEST))
+        #time.sleep(5)
+        #userTestResult.append(user.updateLogo(LOGO_TEST))
+        #time.sleep(10)
+        #userTestResult.append(user.deleteLogo(LOGO_TEST))
+        time.sleep(5)
         """
         #USER
         itemName = random.randint(0,6)
@@ -120,8 +118,8 @@ try:
         time.sleep(5)
         
         #Diagnostic test
-        userTestResult.append(user.runManualTest(ID_UNITEST))
-        """
+        #userTestResult.append(user.runManualTest(ID_UNITEST))
+        
         user.logOut()
         
         #Save and verify results gotten
