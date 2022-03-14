@@ -76,13 +76,13 @@ try:
         user.clearHistory()
         
         user.logIn()
-        """
+        
         #UNIT
         added = user.addUnit(1)
         userTestResult.append(added)
         time.sleep(5)
         ID_UNITEST = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
-        #userTestResult.append(user.updateUnit(ID_UNITEST))
+        userTestResult.append(user.updateUnit(ID_UNITEST))
         time.sleep(15)
         
         #Comprobar si es id get id unit  
@@ -101,13 +101,13 @@ try:
         #LOGO
         userTestResult.append(user.addLogo())
         time.sleep(5)
-        #userTestResult.append(user.viewLogo(LOGO_TEST))
-        #time.sleep(5)
-        #userTestResult.append(user.updateLogo(LOGO_TEST))
-        #time.sleep(10)
-        #userTestResult.append(user.deleteLogo(LOGO_TEST))
+        userTestResult.append(user.viewLogo(LOGO_TEST))
         time.sleep(5)
-        """
+        userTestResult.append(user.updateLogo(LOGO_TEST))
+        time.sleep(10)
+        userTestResult.append(user.deleteLogo(LOGO_TEST))
+        time.sleep(5)
+        
         #USER
         itemName = random.randint(0,6)
         itemLastname = random.randint(0,6)
@@ -116,9 +116,14 @@ try:
         time.sleep(10)
         userTestResult.append(user.viewUser())
         time.sleep(5)
+        userTestResult.append(user.updateUser('cprice@rhombusenergysolutions.com',active=False))
         
-        #Diagnostic test
-        #userTestResult.append(user.runManualTest(ID_UNITEST))
+        #DIAGNOSTIC TEST
+        userTestResult.append(user.runManualTest(ID_UNITEST))
+
+        #ORGANIZATION
+        userTestResult.append(user.addOrganitzation())
+
         
         user.logOut()
         

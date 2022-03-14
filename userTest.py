@@ -94,6 +94,84 @@ class vectorStat:
             print("TEST FAILED\n--------------------------")
             return False
 
+    # Add organization
+    def addOrganitzation(self):
+        self.historyTestOrder.append("AddOrganization")
+        print("ADD ORGANIZATION")
+        try:
+            #Unit top button
+            
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]/a'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Go to organizations
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Add organization
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[3]'
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Organization name
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[1]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Addres
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[2]/div[1]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Contact name
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # City
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[2]/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Contact Email
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[3]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # State
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[2]/div[3]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Phone
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[4]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Zip
+            stringInformation = "--"
+            inputButton = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[2]/div[4]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputButton))).send_keys(str(stringInformation))
+
+            # Select role
+            item = random.randint(1,3)
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[2]/div[1]/fieldset/div/select/option['+ str(item) +']'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            time.sleep(7)
+
+            # Save button
+            buttonPath='/html/body/div[2]/div[3]/div/div[2]/form/div[3]/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+
+            print(id," added\nTEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("ADD ORGANIZATION TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
     # Add a new unit in VectorStat
     def addUnit(self,option):
         self.historyTestOrder.append("AddUnit")
@@ -102,7 +180,7 @@ class vectorStat:
             #Unit top button
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            time.sleep(3)
+            time.sleep(3)            
             #Add unit button
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/button[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -607,6 +685,7 @@ class vectorStat:
             buttonPath = '/html/body/div/div/div/div[1]/div[4]'
             WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             #time.sleep(5)
+            
             #Click on log out button
             buttonPath = '/html/body/div/div/div/div[1]/div[4]/div/div/ul/a'
             WebDriverWait(self.driver,15).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -920,7 +999,57 @@ class vectorStat:
             self.driver.get(self.url)
             print("TEST FAILED\n--------------------------")
             return False
-    
+  
+    # Update user
+    def updateUser(self,email,active):
+        self.historyTestOrder.append("updateUser")
+        print("UPDATE USER")
+        try:
+            #Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Write in email search box
+            inputText = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[3]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputText))).send_keys(str(email))
+
+            # click on first result
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[3]/span'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Update user
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/hr[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            time.sleep(10)
+
+            # Status
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[2]/div/div'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Change to active or inactive
+            if active:
+                buttonPath = '/html/body/div[3]/div[3]/ul/li[1]'
+            else:
+                buttonPath = '/html/body/div[3]/div[3]/ul/li[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Save button
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[3]/div[4]/button[2]'
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("UPDATE USER TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+  
     # View logo
     def viewLogo(self,name):
         self.historyTestOrder.append("ViewLogo")

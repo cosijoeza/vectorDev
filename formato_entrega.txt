@@ -1,0 +1,9 @@
+verde el que pasa
+rojo el que falla
+numero total de pruebas
+cuantas pruebas pasaron 
+cuantas pruebas falllaron
+
+Se ejecutan las prubeas cuando 
+se construye elproyecto, si hay errores se deben mostrary solucionar. 
+No se debe pasar a la etapa de deployment.
