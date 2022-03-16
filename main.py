@@ -16,8 +16,8 @@ options.add_argument('--disable-extensions')
 driver_path = '/home/cosi/Documentos/datyra/test/selenium/chromedriver'
 driver = webdriver.Chrome(driver_path,chrome_options=options)
 url = 'http://localhost:3000/'
-url = 'http://vectorint.vectorstat.com/'
 url = 'http://vectordev.vectorstat.com/'
+url = 'http://vectorint.vectorstat.com/'
 
 def getName(email):
     name = email.split("@")
@@ -28,7 +28,7 @@ def getName(email):
 usersList = []
 results = []
 userTestResult = [] #b
-allowedUserPermissionsFromDB = [] #permisos permitidos para usuarios $allowedUserPermissionsFromDB
+allowedUserPermissionsFromDB = [] #List to allowed user Permissions From DB
 debug = False
 try:
     try:
@@ -38,6 +38,7 @@ try:
         DB_PASS = os.getenv("DB_PASS")
         ID_UNITEST = os.getenv("ID_UNITEST")
         LOGO_TEST = os.getenv("LOGO_TEST")
+        ORGANIZATION_NAME = os.getenv("ORGANIZATION_NAME")
         if debug != True:
             PASSWORDS = os.getenv("PASSWORDS").split(",\n")
             USERS = os.getenv("USERS").split(",\n")
@@ -76,7 +77,7 @@ try:
         user.clearHistory()
         
         user.logIn()
-        
+        """
         #UNIT
         added = user.addUnit(1)
         userTestResult.append(added)
@@ -120,9 +121,13 @@ try:
         
         #DIAGNOSTIC TEST
         userTestResult.append(user.runManualTest(ID_UNITEST))
+        userTestResult.append(user.runCommunicationTest(ID_UNITEST))
+        """
 
         #ORGANIZATION
-        userTestResult.append(user.addOrganitzation())
+        #userTestResult.append(user.addOrganitzation())
+        #userTestResult.append(user.viewOrganization(ORGANIZATION_NAME))
+        userTestResult.append(user.updateOrganization(ORGANIZATION_NAME))
 
         
         user.logOut()

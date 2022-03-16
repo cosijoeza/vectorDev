@@ -99,8 +99,7 @@ class vectorStat:
         self.historyTestOrder.append("AddOrganization")
         print("ADD ORGANIZATION")
         try:
-            #Unit top button
-            
+            # Go Home            
             buttonPath = '/html/body/div/div/div/div[1]/div[1]/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
@@ -172,6 +171,7 @@ class vectorStat:
             self.driver.get(self.url)
             time.sleep(5)
             return False
+    
     # Add a new unit in VectorStat
     def addUnit(self,option):
         self.historyTestOrder.append("AddUnit")
@@ -182,7 +182,7 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             time.sleep(3)            
             #Add unit button
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/button[1]'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[1]/div[2]/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Unit type button
@@ -677,6 +677,8 @@ class vectorStat:
         print("LOG OUT")
         try:
             self.driver.get(self.url)
+            time.sleep(5)
+            
             #Unit top button
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -684,7 +686,6 @@ class vectorStat:
             #Click on menu button
             buttonPath = '/html/body/div/div/div/div[1]/div[4]'
             WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            #time.sleep(5)
             
             #Click on log out button
             buttonPath = '/html/body/div/div/div/div[1]/div[4]/div/div/ul/a'
@@ -695,6 +696,47 @@ class vectorStat:
             print(e)
             self.driver.get(self.url)
             print("LOG OUT TEST FAILED")
+            return False
+
+    # Diagnostic test
+    def runCommunicationTest(self,id):
+        self.historyTestOrder.append("runCommunicationTest")
+        print("RUN COMMUNICATION TEST")
+        try:
+            # Go to home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Units top button
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Search unit
+            serialNumber = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,serialNumber))).send_keys(str(id))
+
+            # Click on unit searched
+            unit = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/a'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+            
+            # Display diagnostic tests
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[1]/div/nav/div[4]'
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # Click on run manual tests
+            unit = '/html/body/div/div/div/div[2]/div/div[2]/div[1]/div/nav/div[5]/div/div/div/div[1]/div'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
+
+            # Wait page is loading
+            time.sleep(5)
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("\nin runCommunicationTest")
+            self.driver.get(self.url)
+            print("TEST FAILED\n--------------------------")
             return False
 
     # Diagnostic test
@@ -718,7 +760,7 @@ class vectorStat:
             unit = '/html/body/div/div/div/div[2]/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
             
-            #Wait while unit is loading
+            # Wait while unit is loading
             time.sleep(5)
 
             # Display diagnostic tests
@@ -935,6 +977,54 @@ class vectorStat:
             print("TEST FAILED\n--------------------------")
             return False
     
+    # update organization
+    def updateOrganization(self,organization):
+        self.historyTestOrder.append("updateOrganization")
+        print("UPDATE ORGANIZATION")
+        try:
+            # Go Home            
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]/a'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Go to organizations
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Search organization
+            inputPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(organization)
+
+            # Click on organization searched
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[1]/span'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to see details
+            time.sleep(3)
+
+            # Edit organization
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/div[1]/div/svg/svg'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Wait to page is loading
+            time.sleep(10)
+            
+            # Close pop up
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Wait to page is loading
+            time.sleep(10)
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("UPDATE ORGANIZATION TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+
+
     # Update a unit from Vectorstat
     def updateUnit(self,id):
         self.historyTestOrder.append("UpdateUnit")
@@ -1049,7 +1139,7 @@ class vectorStat:
             self.driver.get(self.url)
             time.sleep(5)
             return False
-  
+    
     # View logo
     def viewLogo(self,name):
         self.historyTestOrder.append("ViewLogo")
@@ -1093,7 +1183,47 @@ class vectorStat:
             self.driver.get(self.url)
             print("TEST FAILED\n--------------------------")
             return False
-    
+
+    # View organization
+    def viewOrganization(self,organization):
+        self.historyTestOrder.append("viewOrganization")
+        print("VIEW ORGANIZATION")
+        try:
+            # Go Home            
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]/a'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Go to organizations
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Search organization
+            inputPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(organization)
+
+            # Click on organization searched
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[1]/span'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to see details
+            time.sleep(10)
+
+            # Close pop up
+            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Wait to page is loading
+            time.sleep(10)
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("VIEW ORGANIZATION TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+
     # View unit notes in Vectorstat
     def viewUnitNotes(self,id):
         self.historyTestOrder.append("ViewUnitNotes")
@@ -1181,7 +1311,7 @@ class vectorStat:
             print("VIEW USER TEST FAILED\n--------------------------")
             self.driver.get(self.url)
             time.sleep(5)
-            return False    
-
+            return False
+    
     def exists():
        return True
