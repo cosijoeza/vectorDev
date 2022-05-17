@@ -27,9 +27,9 @@ def getName(email):
 
 usersList = []
 results = []
-userTestResult = [] #b
+userTestResult = []
 allowedUserPermissionsFromDB = [] #List to allowed user Permissions From DB
-debug = False
+debug = True
 try:
     try:
         DB_HOST = os.getenv("DB_HOST")
@@ -38,6 +38,7 @@ try:
         DB_PASS = os.getenv("DB_PASS")
         ID_UNITEST = os.getenv("ID_UNITEST")
         LOGO_TEST = os.getenv("LOGO_TEST")
+        EMAIL_TEST = os.getenv("EMAIL_TEST")
         ORGANIZATION_NAME = os.getenv("ORGANIZATION_NAME")
         if debug != True:
             PASSWORDS = os.getenv("PASSWORDS").split(",\n")
@@ -77,14 +78,16 @@ try:
         user.clearHistory()
         
         user.logIn()
-        """
         #UNIT
+        """
         added = user.addUnit(1)
         userTestResult.append(added)
         time.sleep(5)
+        
         ID_UNITEST = 'RD201024' #poner razon de porque está y ponerlo en archivo de constantes
         userTestResult.append(user.updateUnit(ID_UNITEST))
-        time.sleep(15)
+        userTestResult.append(user.updateUnit(ID_UNITEST,active = False))
+        
         
         #Comprobar si es id get id unit  
         if added:
@@ -98,16 +101,17 @@ try:
         time.sleep(10)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         userTestResult.append(user.viewUnitNotes(ID_UNITEST))
         time.sleep(10)
-        
         #LOGO
         userTestResult.append(user.addLogo())
         time.sleep(5)
+        
         userTestResult.append(user.viewLogo(LOGO_TEST))
         time.sleep(5)
         userTestResult.append(user.updateLogo(LOGO_TEST))
         time.sleep(10)
-        userTestResult.append(user.deleteLogo(LOGO_TEST))
-        time.sleep(5)
+        userTestResult.append(user.updateLogo(LOGO_TEST,active=True))
+        time.sleep(10)
+        #userTestResult.append(user.de    leteLogo(LOGO_TEST))
         
         #USER
         itemName = random.randint(0,6)
@@ -117,19 +121,30 @@ try:
         time.sleep(10)
         userTestResult.append(user.viewUser())
         time.sleep(5)
-        userTestResult.append(user.updateUser('cprice@rhombusenergysolutions.com',active=False))
-        
+        """
+        userTestResult.append(user.updateUser(EMAIL_TEST))
+        userTestResult.append(user.updateUser(EMAIL_TEST,active=True))
+        """
+
         #DIAGNOSTIC TEST
         userTestResult.append(user.runManualTest(ID_UNITEST))
         userTestResult.append(user.runCommunicationTest(ID_UNITEST))
-        """
 
         #ORGANIZATION
-        #userTestResult.append(user.addOrganitzation())
-        #userTestResult.append(user.viewOrganization(ORGANIZATION_NAME))
+        userTestResult.append(user.addOrganitzation())
+        userTestResult.append(user.viewOrganization(ORGANIZATION_NAME))
         userTestResult.append(user.updateOrganization(ORGANIZATION_NAME))
-
         
+        # ROLE
+        userTestResult.append(user.addRole())
+        userTestResult.append(user.viewRole("Role-X Test"))
+        userTestResult.append(user.updateRole("sysAdmin"))
+        
+        #SOFTWARE COMPONENTS
+        userTestResult.append(user.addSoftwareComponent())
+        imageName = "20220510-rel9.8.img"
+        userTestResult.append(user.updateSoftwareComponent(imageName))
+        """
         user.logOut()
         
         #Save and verify results gotten

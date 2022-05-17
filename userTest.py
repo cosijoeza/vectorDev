@@ -39,11 +39,11 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             # Logos
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[1]/div/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             # Add Logo
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[1]'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             # Organization
@@ -60,31 +60,31 @@ class vectorStat:
             'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
             id = 'LOGO'+ random.choice(string.ascii_letters.upper()) + str( random.randint(200000,1000000) ) + '_TEST'
             #Name
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[2]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(str(id))
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(str(id))
 
             # Description
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div/input'
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div'
             dateNow = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Test Description ",str(dateNow))
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys("Test Description ",str(dateNow))
 
             # Upload small logo
             option = random.randint(0,1)
-            picturePath = "/home/cosi/Documentos/datyra/test/selenium/logoPictures/logo_picture["+option+"].png"
+            picturePath = "/home/cosi/Documentos/datyra/test/selenium/logoPictures/logo_picture["+str(option)+"].png"
             #self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-480x125.png")
             self.driver.find_element_by_id("contained-button-file1").send_keys(picturePath)
 
             # Upload big logo  
             option = random.randint(2,3)
-            picturePath = "/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-5   5x45.png"
-            self.driver.find_element_by_id("contained-button-file2").send_keys(picturePath )
+            picturePath = "/home/cosi/Documentos/datyra/test/selenium/Nuvve-Rhombus-55x45.png"
+            self.driver.find_element_by_id("contained-button-file2").send_keys(picturePath)
 
             time.sleep(5)
 
             #Save
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[5]/div/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
+            print(id+" added")
             print("TEST PASSED\n--------------------------")
             return True
         except Exception as e:
@@ -172,6 +172,140 @@ class vectorStat:
             time.sleep(5)
             return False
     
+    # Add Role
+    def addRole(self):
+        self.historyTestOrder.append("addRole")
+        print("ADD ROLE")
+        try:
+            # Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to vectorDev load information
+            time.sleep(10)
+            
+            # Click on roles option
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[2]/a '
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to vectorDev load information
+            time.sleep(5)
+            
+            # Add role
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[2]'
+            WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Display organizations option
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[1]/div/div'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Select random dispenser type
+            item = random.randint(1,13)
+            print(item)
+            buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Generate random role name
+            string.ascii_letters 
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys("Role-"+random.choice(string.ascii_letters.upper())+" Test")
+
+            # Description
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys("Description-"+random.choice(string.ascii_letters.upper()))
+            
+            #   Select permissions
+            for i in range(random.randint(1,60)):
+                inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[6]/div['+str(random.randint(1,60))+']/label/span[1]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).click()
+            
+            time.sleep(15)
+
+            # Save button
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[7]/div/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            time.sleep(5)
+
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("ADD ROLE TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+
+    #Add software component
+    def addSoftwareComponent(self):
+        self.historyTestOrder.append("AddSoftwareComponent")
+        print("ADD SOFTWARE COMPONENT")
+        try:
+            #Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            #Lookup table maint
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[4]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Software components
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Add component
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Component type
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[1]/div'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Choose component type
+            option = random.randint(1,5)
+            inputPath = '/html/body/div[3]/div[3]/ul/li['+str(option)+']'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).click()
+
+            #Select picture .img
+            picturePath = '/home/cosi/Imágenes/20220510-rel9.8.img'
+            #self.driver.find_element_by_id("").send_keys(picturePath)
+
+            # Release notes
+            length_of_string = 2000
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[4]/div/textarea[1]'
+            text = ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(length_of_string))
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(text)
+
+            # Cancel
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[5]/div/button[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Confirm to cancel
+            buttonPath = '/html/body/div[3]/div[3]/div/div[2]/button[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Save information            
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[5]/div/button[2]'
+            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            time.sleep(5)
+            return True
+        except Exception as e:
+            print(e)
+            print("\nin add Software Component")
+            self.driver.get(self.url)
+            print("TEST FAILED\n--------------------------")
+            return False
+
     # Add a new unit in VectorStat
     def addUnit(self,option):
         self.historyTestOrder.append("AddUnit")
@@ -365,15 +499,16 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Add user
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[2]'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/button[3]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Select organization
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[1]/div[1]/div[1]/div/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Click on first option
-            buttonPath = '/html/body/div[3]/div[3]/ul/li'
+            # Select option
+            option = random.randint(1,14)
+            buttonPath = '/html/body/div[3]/div[3]/ul/li['+str(option)+']'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             print("Name: ",name," ",lastName,"Email: ", email)
@@ -390,22 +525,21 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(email)
             
             #Upload picture
-            item = random.randint(0,1)
-            print("WP: ")
+            item = random.randint(0,2)
             if item == 0:
                 print("20.8kB")
             else:
                 print("1.1MB")
-            picturePath = '/home/cosi/Documentos/datyra/test/selenium/picture_profile_test['+str(item)+'].png'
+            picturePath = '/home/cosi/Documentos/datyra/test/selenium/profilePictures/picture_profile_test['+str(item)+'].png'
             self.driver.find_element_by_id("imageinput").send_keys(picturePath)
-
+            """
             #Select role
-            item = random.randint(0,6)+1
+            item = random.randint(1,7)
             print(item)
             buttonPath= '/html/body/div[2]/div[3]/div/div[2]/form/div[2]/div[1]/div[2]/fieldset/div/label['+str(item)+']/span[1]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             time.sleep(7)
-
+            """
             #Save button
             buttonPath = '/html/body/div[2]/div[3]/div/div[2]/form/div[3]/div/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
@@ -447,10 +581,13 @@ class vectorStat:
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[4]/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            time.sleep(5)
+            
             #Logos
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[1]/div/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            time.sleep(8)
             #Search logo
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(name)
@@ -487,6 +624,7 @@ class vectorStat:
 
     # Delete a unit from Vectorstat
     def deleteUnit(self,id):
+        self.driver.get(self.url)
         self.historyTestOrder.append("DeleteUnit")
         print("DELETE UNIT")
         try:
@@ -533,7 +671,7 @@ class vectorStat:
             print("TEST FAILED\n--------------------------")
             return False
 
-    # Generate a PDF file (report's results of test)
+    # Generate a PDF file (reports results of test)
     def generateReport(self,resultsList,correctPermissions,users):
 
         users.insert(0,'')
@@ -911,9 +1049,14 @@ class vectorStat:
             print(e," in setDBConecction")
  
     # Update logo
-    def updateLogo(self,name):
-        self.historyTestOrder.append("UpdateLogo")
-        print("UPDATE LOGO")
+    def updateLogo(self,name,active = None):
+        self.driver.get(self.url)
+        if active != None:
+            self.historyTestOrder.append("UpdateLogoStatus")
+            print("UPDATE LOGO STATUS")
+        else:
+            self.historyTestOrder.append("UpdateLogo")
+            print("UPDATE LOGO")
         try:
             #Home
             buttonPath = '/html/body/div/div/div/div[1]/div[1]'
@@ -927,8 +1070,10 @@ class vectorStat:
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[4]/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            time.sleep(5)
+
             #Logos
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[1]/div/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             time.sleep(8)
@@ -944,28 +1089,41 @@ class vectorStat:
             
             #Update
             self.driver.find_element_by_xpath('//div[@id="logoEdit"]/*[name()="svg"]').click()
-            
-            #New description
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[3]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Updated logo")
-            
-            item = random.randint(0,1)
-            print(item)
-            if item == 1:
-                #Upload 600x150px 
-                self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/big-logo.png")
-            else:
-                #Upload 90x60px 
-                self.driver.find_element_by_id("contained-button-file2").send_keys("/home/cosi/Documentos/datyra/test/selenium/little-logo.png")
+            if active == None:
+                #New description
+                buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/input'            
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys("Updated logo")
+                
+                item = random.randint(0,1)
+                if item == 1:
+                    #Upload 600x150px 
+                    self.driver.find_element_by_id("contained-button-file1").send_keys("/home/cosi/Documentos/datyra/test/selenium/logoPictures/logoPicture[3].png")
+                else:
+                    #Upload 90x60px 
+                    self.driver.find_element_by_id("contained-button-file2").send_keys("/home/cosi/Documentos/datyra/test/selenium/logoPictures/logoPicture[1].png")
+                print("logo updated: "+str(item))
+                time.sleep(5)
 
-            time.sleep(5)
+            else:
+                if active == False:
+                    # Record Status
+                    buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[2]/div/div/div'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+                    # Inactive
+                    buttonPath='/html/body/div[3]/div[3]/ul/li[2]'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                else:
+                    # Record Status
+                    buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[2]/div/div/div'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+                    # Active
+                    buttonPath='/html/body/div[3]/div[3]/ul/li[1]'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()                 
 
             #Save
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[5]/div/button[2]'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
-            #Close logo window
-            buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[4]/div/button[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             print("TEST PASSED\n--------------------------")
@@ -977,7 +1135,7 @@ class vectorStat:
             print("TEST FAILED\n--------------------------")
             return False
     
-    # update organization
+    # Update organization
     def updateOrganization(self,organization):
         self.historyTestOrder.append("updateOrganization")
         print("UPDATE ORGANIZATION")
@@ -1023,12 +1181,134 @@ class vectorStat:
             self.driver.get(self.url)
             time.sleep(5)
             return False
+    
+    def updateRole(self,roleName):
+        self.historyTestOrder.append("updateRole")
+        print("UPDATE ROLE")
+        try:
+            # Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            # Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to vectorDev load information
+            time.sleep(10)
+            
+            # Click on roles option
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[2]/a '
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Wait to vectorDev load information
+            time.sleep(5)
+            print(roleName)
+            
+            #Write role name in search textbox
+            inputPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[1]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(str(roleName))
+
+            #Click on fisrt result
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/span'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            #Click on update button
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/div[1]/div/svg'
+            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            time.sleep(10)
+
+            #Select organization
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[1]/div[1]/div/div'
+            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Choose random option
+            item = random.randint(0,14)
+            buttonPath = '/html/body/div[3]/div[3]/ul/li['+ str(item) +']'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Role name
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[1]/div[2]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys('*')
+
+            #Description
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[1]/div[3]/div/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys('*')
+
+            time.sleep(10)
+            for i in range(10):
+                item = random.randint(1,57)
+                checkBox ='/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[3]/div[2]/div[2]/div['+str(item)+']/label/span[1]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,checkBox))).click()
+            
+            time.sleep(15)
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("UPDATE ROLE TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+    
+    # Update software component
+    def updateSoftwareComponent(self,imageName,active = None):
+        self.historyTestOrder.append("updateSoftwareComponent")
+        print("UPDATE SOFTWARE COMPONENT")
+        try:
+            # Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            #Lookup table maint
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[4]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Software components
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[2]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Search by image name
+            inputPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[2]/input'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(str(imageName))
+
+            # Choose the first one
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[2]/span'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Edit button
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div/div[3]/div/svg[1]/svg'
+            #WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            # Release notes
+            length_of_string = 2000
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div/div/form/div[1]/div[4]/div/div/textarea[1]'            
+            text = ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(length_of_string))
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys(str(text))
+
+            time.sleep(15)
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("UPDATE SOFTWARE COMPONENT\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
 
     # Update a unit from Vectorstat
-    def updateUnit(self,id):
-        self.historyTestOrder.append("UpdateUnit")
-        print("UPDATE UNIT")
+    def updateUnit(self,id,active = None):
+        self.driver.get(self.url)
+        if active != None:
+            self.historyTestOrder.append("UpdateUnitStatus")
+            print("UPDATE UNIT STATUS")
+        else:
+            self.historyTestOrder.append("UpdateUnit")
+            print("UPDATE UNIT")
         try:
             #Unit top button
             buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[1]'
@@ -1043,45 +1323,64 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
             
             #Wait while unit is loading
-            time.sleep(15)
+            time.sleep(5)
 
             #Edit unit
             unit = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,unit))).click()
 
-            #Product type
-            buttonPath = '/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            
-            #Choose random option
-            item = random.randint(0,2)+1
-            buttonPath = '/html/body/div[2]/div[3]/ul/li['+ str(item) +']'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            # Active or deactive unit
+            if active != None:
+                #Record status
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[3]/p/div/div/div'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                if active == True:
+                    buttonPath = '/html/body/div[2]/div[3]/ul/li[1]'
+                else: 
+                    buttonPath = '/html/body/div[2]/div[3]/ul/li[2]'
+                time.sleep(5)
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click() 
 
-            #Beaglebone Serial #
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[2]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys('abc..|123')
+                #Save update
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/button[2]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                
+                #Confirmation to deactivate unit
+                if active == False:
+                    # Yes
+                    buttonPath = '/html/body/div[2]/div[3]/div/div[2]/button[2]'
+                    # No
+                    buttonPath = '/html/body/div[2]/div[3]/div/div[2]/button[1]'
+                    WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            else:
+                #Product type
+                buttonPath = '/html/body/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                
+                #Choose random option
+                item = random.randint(1,3)
+                buttonPath = '/html/body/div[2]/div[3]/ul/li['+ str(item) +']'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Screen Brightness
-            item = random.randint(0,8) * 10 + 20
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
-            element = self.driver.find_element_by_xpath(buttonPath).clear()
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)
+                #Beaglebone Serial #
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[2]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys('abc..|123')
 
-            #Poll Intervals (seconds)
-            item = random.randint(0,54) * 10 + 60
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
-            element = self.driver.find_element_by_xpath(buttonPath).clear()
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)
+                #Screen Brightness
+                item = random.randint(2,10) * 10
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[6]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)
 
-            #Save update
-            buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/button[2]'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+                #Poll Intervals (seconds)
+                item = random.randint(1,6) * 100
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div[5]/div/input'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).send_keys(item)  
+
+                #Save update
+                buttonPath = '/html/body/div/div/div/div[2]/div/div[2]/div[2]/div/div/div[3]/div/button[2]'
+                WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
             
             time.sleep(10)
-            
             print("TEST PASSED\n--------------------------")
             return True
         except Exception as e:
@@ -1091,7 +1390,7 @@ class vectorStat:
             return False
   
     # Update user
-    def updateUser(self,email,active):
+    def updateUser(self,email,active = None):
         self.historyTestOrder.append("updateUser")
         print("UPDATE USER")
         try:
@@ -1106,31 +1405,63 @@ class vectorStat:
             #Write in email search box
             inputText = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/thead/tr[2]/th[3]/input'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputText))).send_keys(str(email))
-
+            
+            time.sleep(5)
+            
             # click on first result
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[3]/span'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[3]/span/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            time.sleep(5)
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             # Update user
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/hr[2]'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-            time.sleep(10)
+            #buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[1]/svg/svg'
+            self.driver.find_element_by_xpath('//div[@id="userEdit"]/*[name()="svg"]').click()
 
-            # Status
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[2]/div/div'
+            # Update first name
+            inputText = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[2]/div/input'
+            self.driver.find_element_by_xpath(inputText).clear()   
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputText))).send_keys("UPD")
+
+            # Update last name
+            inputText = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[3]/div/input'
+            self.driver.find_element_by_xpath(inputText).clear()
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputText))).send_keys("UPD")
+            
+            # Email
+            inputPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[4]/div/input'
+            self.driver.find_element_by_xpath(inputText).clear()
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,inputPath))).send_keys("UPD")
+
+            # Record status
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[5]/div'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
-            #Change to active or inactive
+            # Change to active or inactive
             if active:
                 buttonPath = '/html/body/div[3]/div[3]/ul/li[1]'
             else:
                 buttonPath = '/html/body/div[3]/div[3]/ul/li[2]'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Roles
+            option = random.randint(1,12)
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[3]/div[1]/fieldset/div/label['+str(option)+']/span[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            # Profile picture
+            option = random.randint(0,1)
+            print("option--> "+str(option))
+            picturePath = "/home/cosi/Documentos/datyra/test/selenium/profilePictures/picture_profile_test["+str(option)+"].png"
+            self.driver.find_element_by_id("imageinput").send_keys(picturePath)
 
+            
+            # time to review information
+            time.sleep(10)
             # Save button
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[3]/div[4]/button[2]'
+            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[3]/div[3]/button[2]'
             WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
+            
             print("TEST PASSED\n--------------------------")
             return True
         except Exception as e:
@@ -1158,7 +1489,7 @@ class vectorStat:
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Logos
-            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div/div'
+            buttonPath = '/html/body/div/div/div/div[2]/div/div/div[1]/div/nav/div[5]/div/div/div/div[1]/div/a'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             #Description
@@ -1169,6 +1500,7 @@ class vectorStat:
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr[1]/td[1]/span'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
+            # Time to view logo information
             time.sleep(5)
 
             #Close pop up
@@ -1224,8 +1556,33 @@ class vectorStat:
             time.sleep(5)
             return False
 
+    # View Role
+    def viewRole(self,role):
+        self.historyTestOrder.append("viewRole")
+        print("VIEW ROLE")
+        try:
+            #Home
+            buttonPath = '/html/body/div/div/div/div[1]/div[1]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+
+            #Admin
+            buttonPath = '/html/body/div/div/div/div[1]/header/div/div/div/a[3]'
+            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
+            
+            print(role)
+            time.sleep(5)
+            print("TEST PASSED\n--------------------------")
+            return True
+        except Exception as e:
+            print(e)
+            print("VIEW ROLE TEST FAILED\n--------------------------")
+            self.driver.get(self.url)
+            time.sleep(5)
+            return False
+
     # View unit notes in Vectorstat
     def viewUnitNotes(self,id):
+        self.driver.get(self.url)
         self.historyTestOrder.append("ViewUnitNotes")
         print("VIEW UNIT NOTES")
         try:
@@ -1286,13 +1643,6 @@ class vectorStat:
             #Click on search result
             buttonPath = '/html/body/div/div/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div[2]/table/tbody/tr/td[3]/span'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
-            #Select organization
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[2]/div/select/option'
-            WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
-            #Select role
-            buttonPath = '/html/body/div[2]/div[3]/div/div[2]/div[2]/div[2]/fieldset/div/select/option'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
 
             time.sleep(10)
@@ -1300,9 +1650,6 @@ class vectorStat:
             #Close pop up
             buttonPath = '/html/body/div[2]/div[3]/div/div[1]/h2/div/button'
             WebDriverWait(self.driver,5).until(EC.element_to_be_clickable((By.XPATH,buttonPath))).click()
-
-            #Wait while information is saving
-            time.sleep(10)
 
             print("TEST PASSED\n--------------------------")
             return True
